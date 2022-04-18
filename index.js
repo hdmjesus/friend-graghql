@@ -10,6 +10,7 @@ import Person from './models/person.js'
 import User from './models/user.js'
 import jwt from 'jsonwebtoken'
 import './db.js'
+
 dotenv.config()
 
 const JWT_SECRET = process.env.JWT_SECRET
@@ -82,7 +83,7 @@ const resolvers = {
 
     findPerson: (root, args) => {
       const { name } = args
-      return persons.findOne({ name })
+      return Person.findOne({ name })
 
       // return persons.find(person => person.name == name)
     },
@@ -221,7 +222,7 @@ const server = new ApolloServer({
 // la propiedad context tiene un callback que se ejecutara cada vez que le llegue una request al servidor de graghql
 
 server
-  .listen(PORT)
+  .listen(8000)
   .then(({ url }) => {
     console.log(`server ready at : ${url}`)
   })

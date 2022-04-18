@@ -7,7 +7,7 @@ const MONGODB_URI =
   'mongodb+srv://hdmjesus:thypi123.@hdjesus.edtuq.mongodb.net/miPrimeraDataBase?retryWrites=true&w=majority'
 
 mongoose
-  .connect(process.env.MONGODB_URI, {
+  .connect(MONGODB_URI, {
     // useNewUrlParser: true,
     // useUnifiedTopology: true,
     // useFindAndModify: false,
