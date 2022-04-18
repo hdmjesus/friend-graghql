@@ -4,13 +4,16 @@ import {
   UserInputError,
   AuthenticationError
 } from 'apollo-server'
+import dotenv from 'dotenv'
 
 import Person from './models/person.js'
 import User from './models/user.js'
 import jwt from 'jsonwebtoken'
 import './db.js'
+dotenv.config()
 
-const JWT_SECRET = 'AQUI_TU_PALABRA_SEGURA'
+const JWT_SECRET = process.env.JWT_SECRET
+const PORT = process.env.PORT
 
 export const typeDefinitions = gql`
   enum YesNo {
@@ -218,7 +221,7 @@ const server = new ApolloServer({
 // la propiedad context tiene un callback que se ejecutara cada vez que le llegue una request al servidor de graghql
 
 server
-  .listen()
+  .listen(PORT)
   .then(({ url }) => {
     console.log(`server ready at : ${url}`)
   })
