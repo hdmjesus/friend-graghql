@@ -200,6 +200,10 @@ const resolvers = {
 }
 
 const server = new ApolloServer({
+  cors: {
+    origin: '*',
+    credentials: true
+  },
   typeDefs: typeDefinitions,
   resolvers,
   context: async ({ req }) => {
@@ -222,7 +226,7 @@ const server = new ApolloServer({
 // la propiedad context tiene un callback que se ejecutara cada vez que le llegue una request al servidor de graghql
 
 server
-  .listen(8000)
+  .listen(PORT)
   .then(({ url }) => {
     console.log(`server ready at : ${url}`)
   })

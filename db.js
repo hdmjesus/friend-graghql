@@ -3,11 +3,8 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const MONGODB_URI =
-  'mongodb+srv://hdmjesus:thypi123.@hdjesus.edtuq.mongodb.net/miPrimeraDataBase?retryWrites=true&w=majority'
-
 mongoose
-  .connect(MONGODB_URI, {
+  .connect(process.env.MONGODB_URI, {
     // useNewUrlParser: true,
     // useUnifiedTopology: true,
     // useFindAndModify: false,
