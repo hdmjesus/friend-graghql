@@ -222,7 +222,7 @@ const server = new ApolloServer({
 // la propiedad context tiene un callback que se ejecutara cada vez que le llegue una request al servidor de graghql
 
 server
-  .listen(PORT)
+  .listen()
   .then(({ url }) => {
     console.log(`server ready at : ${url}`)
   })
