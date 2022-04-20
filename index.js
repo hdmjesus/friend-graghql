@@ -200,7 +200,6 @@ const resolvers = {
 }
 
 const server = new ApolloServer({
-  cors: true,
   typeDefs: typeDefinitions,
   resolvers,
   context: async ({ req }) => {
