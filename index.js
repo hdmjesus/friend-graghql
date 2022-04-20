@@ -201,7 +201,7 @@ const resolvers = {
 
 const server = new ApolloServer({
   cors: {
-    origin: '*',
+    origin: 'https://friends-add-client-mp39gsrzh-hdmjesus.vercel.app/', // <- allow request from all domains
     credentials: true
   },
   typeDefs: typeDefinitions,
