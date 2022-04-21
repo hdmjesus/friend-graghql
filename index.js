@@ -1,9 +1,8 @@
-import {
-  gql,
-  ApolloServer,
-  UserInputError,
-  AuthenticationError
-} from 'apollo-server'
+import { gql, UserInputError, AuthenticationError } from 'apollo-server'
+import express from 'express'
+import cors from 'cors'
+
+import { ApolloServer } from 'apollo-server-express'
 import dotenv from 'dotenv'
 
 import Person from './models/person.js'
@@ -199,33 +198,44 @@ const resolvers = {
   }
 }
 
-const server = new ApolloServer({
-  typeDefs: typeDefinitions,
-  resolvers,
-  context: async ({ req }) => {
-    const auth = req ? req.headers.authorization : null
+async function startApolloServer (typeDefinitions, resolvers) {
+  const app = express()
+  app.use(cors())
 
-    if (auth && auth.toLocaleLowerCase().startsWith('bearer')) {
-      //bearer as121212121w211 <El token llega asi, con el subtring(7) lo que hacemos es dejar solo el valor del token
+  const server = new ApolloServer({
+    typeDefs: typeDefinitions,
+    resolvers,
+    context: async ({ req }) => {
+      const auth = req ? req.headers.authorization : null
 
-      const token = auth.substring(7)
-      const decodeToken = jwt.verify(token, JWT_SECRET)
+      if (auth && auth.toLocaleLowerCase().startsWith('bearer')) {
+        //bearer as121212121w211 <El token llega asi, con el subtring(7) lo que hacemos es dejar solo el valor del token
 
-      const currentUser = await User.findById(decodeToken.id).populate(
-        'friends'
-      )
-      return { currentUser }
+        const token = auth.substring(7)
+        const decodeToken = jwt.verify(token, JWT_SECRET)
+
+        const currentUser = await User.findById(decodeToken.id).populate(
+          'friends'
+        )
+        return { currentUser }
+      }
     }
-  }
-})
+  })
 
+  await server.start()
+  server.applyMiddleware({ app })
+
+  app.listen(3000)
+}
+
+startApolloServer(typeDefinitions, resolvers)
 // la propiedad context tiene un callback que se ejecutara cada vez que le llegue una request al servidor de graghql
 
-server
-  .listen({ port: process.env.PORT || 4000 })
-  .then(({ url }) => {
-    console.log(`server ready at : ${url}`)
-  })
-  .catch(err => {
-    console.log(err)
-  })
+// server
+//   .listen({ port: process.env.PORT || 4000 })
+//   .then(({ url }) => {
+//     console.log(`server ready at : ${url}`)
+//   })
+//   .catch(err => {
+//     console.log(err)
+//   })
