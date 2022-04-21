@@ -1,5 +1,8 @@
 import { gql, UserInputError, AuthenticationError } from 'apollo-server'
-import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
+import {
+  ApolloServerPluginLandingPageProductionDefault,
+  ApolloServerPluginLandingPageLocalDefault
+} from 'apollo-server-core'
 import express from 'express'
 import cors from 'cors'
 
@@ -205,7 +208,8 @@ async function startApolloServer (typeDefinitions, resolvers) {
 
   const server = new ApolloServer({
     typeDefs: typeDefinitions,
-    plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+
+    plugins: [ApolloServerPluginLandingPageLocalDefault()],
     resolvers,
     context: async ({ req }) => {
       const auth = req ? req.headers.authorization : null
